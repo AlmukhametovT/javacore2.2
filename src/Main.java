@@ -22,21 +22,19 @@ public class Main {
         // Получить отсортированный по фамилии список потенциально работоспособных людей
         // с высшим образованием в выборке
         // (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин)
-        List<Person> potencialManWorkerList = persons.stream()
-                .filter(value -> value.getSex().equals(Sex.MAN))
+        List<Person> potencialWorkerList = persons.stream()
                 .filter(value -> value.getEducation().equals(Education.HIGHER))
-                .filter(value -> value.getAge() >= 18 && value.getAge() < 65)
+                .filter(value -> {
+                    boolean check = false;
+                    if (value.getAge() >= 18 && value.getAge() < 60 && value.getSex().equals(Sex.WOMAN)) {
+                        check = true;
+                    } else if (value.getAge() >= 18 && value.getAge() < 65 && value.getSex().equals(Sex.MAN)) {
+                        check = true;
+                    }
+                    return check;
+                })
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
-        List<Person> potencialWomanWorkerList = persons.stream()
-                .filter(value -> value.getSex().equals(Sex.WOMAN))
-                .filter(value -> value.getEducation().equals(Education.HIGHER))
-                .filter(value -> value.getAge() >= 18 && value.getAge() < 60)
-                .sorted(Comparator.naturalOrder())
-                .collect(Collectors.toList());
-        List<Person> potencialWorkerList = new ArrayList<>();
-        potencialWorkerList.addAll(potencialManWorkerList);
-        potencialWorkerList.addAll(potencialWomanWorkerList);
         System.out.println("количество потенциально работоспособных людей в списке " + potencialWorkerList.size());
     }
 
