@@ -24,15 +24,17 @@ public class Main {
         // (т.е. людей с высшим образованием от 18 до 60 лет для женщин и до 65 лет для мужчин)
         List<Person> potencialWorkerList = persons.stream()
                 .filter(value -> value.getEducation().equals(Education.HIGHER))
-                .filter(value -> {
-                    boolean check = false;
-                    if (value.getAge() >= 18 && value.getAge() < 60 && value.getSex().equals(Sex.WOMAN)) {
-                        check = true;
-                    } else if (value.getAge() >= 18 && value.getAge() < 65 && value.getSex().equals(Sex.MAN)) {
-                        check = true;
-                    }
-                    return check;
-                })
+//                .filter(value -> {
+//                    boolean check = false;
+//                    if (value.getAge() >= 18 && value.getAge() < 60 && value.getSex().equals(Sex.WOMAN)) {
+//                        check = true;
+//                    } else if (value.getAge() >= 18 && value.getAge() < 65 && value.getSex().equals(Sex.MAN)) {
+//                        check = true;
+//                    }
+//                    return check;
+//                })
+                .filter(x -> x.getAge() >= 18)
+                .filter(x -> (x.getSex().equals(Sex.MAN) & x.getAge() < 65) || (x.getSex().equals(Sex.WOMAN) & x.getAge() < 60))
                 .sorted(Comparator.naturalOrder())
                 .collect(Collectors.toList());
         System.out.println("количество потенциально работоспособных людей в списке " + potencialWorkerList.size());
